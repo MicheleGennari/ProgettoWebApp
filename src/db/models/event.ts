@@ -10,7 +10,8 @@ const eventSchema = new mongoose.Schema({
   id: Number,
 });
 
-const eventModel = mongoose.model("Event", eventSchema);
+const eventModel =
+  mongoose.models.Event || mongoose.model("Event", eventSchema);
 
 const customizationOptions = {};
 
