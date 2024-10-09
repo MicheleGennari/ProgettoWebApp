@@ -10,6 +10,9 @@ const nextConfig = {
       eagerEsModules: false,
     },
   },
+  experimental: {
+    serverComponentsExternalPackages: ["graphql"],
+  },
 };
 
 export default nextConfig;
