@@ -2,7 +2,6 @@ import { composeWithMongoose } from "graphql-compose-mongoose";
 import { schemaComposer } from "graphql-compose";
 import { getMongooseResolvers } from "./graphqlComposeUtilities";
 import fs from "fs";
-import path from "path";
 import mongoose from "mongoose";
 
 const eventSchema = new mongoose.Schema({
@@ -25,6 +24,10 @@ schemaComposer.Mutation.addFields({
   ...getMongooseResolvers(eventTC, "event_").mutations,
 });
 
-fs.writeFileSync("../../../schema.graphql", schemaComposer.toSDL());
+console.log("trying to print schema");
+
+console.log(process.cwd());
+
+fs.writeFileSync(`${process.cwd()}/schema.graphql`, schemaComposer.toSDL());
 
 export const graphqlschema = schemaComposer.buildSchema({});

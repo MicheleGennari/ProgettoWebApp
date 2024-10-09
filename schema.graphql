@@ -1,0 +1,730 @@
+type Query {
+  event_count(
+    """
+    Filter by fields
+    """
+    filter: FilterCountEventInput
+  ): Int
+  event_findById(_id: MongoID!): Event
+  event_findByIds(
+    _ids: [MongoID!]!
+    limit: Int = 100
+    sort: SortFindByIdsEventInput
+  ): [Event!]!
+  event_findOne(
+    """
+    Filter by fields
+    """
+    filter: FilterFindOneEventInput
+    skip: Int
+    sort: SortFindOneEventInput
+  ): Event
+  event_findMany(
+    """
+    Filter by fields
+    """
+    filter: FilterFindManyEventInput
+    skip: Int
+    limit: Int = 100
+    sort: SortFindManyEventInput
+  ): [Event!]!
+  event_dataLoader(_id: MongoID!): Event
+  event_dataLoaderMany(_ids: [MongoID!]!): [Event]!
+  event_pagination(
+    """
+    Page number for displaying
+    """
+    page: Int
+
+    """
+    """
+    perPage: Int = 20
+
+    """
+    Filter by fields
+    """
+    filter: FilterFindManyEventInput
+    sort: SortFindManyEventInput
+  ): EventPagination
+  event_connection(
+    """
+    Forward pagination argument for returning at most first edges
+    """
+    first: Int
+
+    """
+    Forward pagination argument for returning at most first edges
+    """
+    after: String
+
+    """
+    Backward pagination argument for returning at most last edges
+    """
+    last: Int
+
+    """
+    Backward pagination argument for returning at most last edges
+    """
+    before: String
+
+    """
+    Filter by fields
+    """
+    filter: FilterFindManyEventInput
+
+    """
+    Sort argument for data ordering
+    """
+    sort: SortConnectionEventEnum = _ID_DESC
+  ): EventConnection
+}
+
+type Mutation {
+  """
+  Create one document with mongoose defaults, setters, hooks and validation
+  """
+  event_createOne(record: CreateOneEventInput!): CreateOneEventPayload
+
+  """
+  Creates Many documents with mongoose defaults, setters, hooks and validation
+  """
+  event_createMany(records: [CreateManyEventInput!]!): CreateManyEventPayload
+
+  """
+  Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+  """
+  event_updateById(
+    _id: MongoID!
+    record: UpdateByIdEventInput!
+  ): UpdateByIdEventPayload
+
+  """
+  Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+  """
+  event_updateOne(
+    record: UpdateOneEventInput!
+
+    """
+    Filter by fields
+    """
+    filter: FilterUpdateOneEventInput
+    sort: SortUpdateOneEventInput
+    skip: Int
+  ): UpdateOneEventPayload
+
+  """
+  Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
+  """
+  event_updateMany(
+    record: UpdateManyEventInput!
+
+    """
+    Filter by fields
+    """
+    filter: FilterUpdateManyEventInput
+    sort: SortUpdateManyEventInput
+    skip: Int
+    limit: Int = 100
+  ): UpdateManyEventPayload
+
+  """
+  Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
+  """
+  event_removeById(_id: MongoID!): RemoveByIdEventPayload
+
+  """
+  Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
+  """
+  event_removeOne(
+    """
+    Filter by fields
+    """
+    filter: FilterRemoveOneEventInput
+    sort: SortRemoveOneEventInput
+  ): RemoveOneEventPayload
+
+  """
+  Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
+  """
+  event_removeMany(
+    """
+    Filter by fields
+    """
+    filter: FilterRemoveManyEventInput!
+    limit: Int = 100
+  ): RemoveManyEventPayload
+}
+
+"""
+The `Boolean` scalar type represents `true` or `false`.
+"""
+scalar Boolean
+
+"""
+The `Boolean` scalar type represents `true` or `false`.
+"""
+scalar Boolean
+
+"""
+The `Boolean` scalar type represents `true` or `false`.
+"""
+scalar Boolean
+
+"""
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+"""
+scalar Float
+
+"""
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+"""
+scalar Int
+
+"""
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+"""
+scalar Int
+
+"""
+The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field.
+"""
+scalar MongoID
+
+"""
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+"""
+scalar String
+
+"""
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+"""
+scalar String
+
+enum SortConnectionEventEnum {
+  _ID_DESC
+  _ID_ASC
+}
+
+enum SortFindByIdsEventInput {
+  _ID_ASC
+  _ID_DESC
+}
+
+enum SortFindManyEventInput {
+  _ID_ASC
+  _ID_DESC
+}
+
+enum SortFindOneEventInput {
+  _ID_ASC
+  _ID_DESC
+}
+
+enum SortRemoveOneEventInput {
+  _ID_ASC
+  _ID_DESC
+}
+
+enum SortUpdateManyEventInput {
+  _ID_ASC
+  _ID_DESC
+}
+
+enum SortUpdateOneEventInput {
+  _ID_ASC
+  _ID_DESC
+}
+
+interface ErrorInterface {
+  """
+  Generic error message
+  """
+  message: String
+}
+
+type CreateManyEventPayload {
+  """
+  Documents IDs
+  """
+  recordIds: [MongoID!]!
+
+  """
+  Created documents
+  """
+  records: [Event!]
+
+  """
+  Number of created documents
+  """
+  createdCount: Int!
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type CreateOneEventPayload {
+  """
+  Document ID
+  """
+  recordId: MongoID
+
+  """
+  Created document
+  """
+  record: Event
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type Event {
+  name: String
+  id: Float
+  _id: MongoID!
+}
+
+"""
+A connection to a list of items.
+"""
+type EventConnection {
+  """
+  Total object count.
+  """
+  count: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  Information to aid in pagination.
+  """
+  edges: [EventEdge!]!
+}
+
+"""
+An edge in a connection.
+"""
+type EventEdge {
+  """
+  The item at the end of the edge
+  """
+  node: Event!
+
+  """
+  A cursor for use in pagination
+  """
+  cursor: String!
+}
+
+"""
+List of items with pagination.
+"""
+type EventPagination {
+  """
+  Total object count.
+  """
+  count: Int
+
+  """
+  Array of objects.
+  """
+  items: [Event!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PaginationInfo!
+}
+
+"""
+Information about pagination in a connection.
+"""
+type PageInfo {
+  """
+  When paginating forwards, are there more items?
+  """
+  hasNextPage: Boolean!
+
+  """
+  When paginating backwards, are there more items?
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
+  startCursor: String
+
+  """
+  When paginating forwards, the cursor to continue.
+  """
+  endCursor: String
+}
+
+type PaginationInfo {
+  currentPage: Int!
+  perPage: Int!
+  pageCount: Int
+  itemCount: Int
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}
+
+type RemoveByIdEventPayload {
+  """
+  Document ID
+  """
+  recordId: MongoID
+
+  """
+  Removed document
+  """
+  record: Event
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type RemoveManyEventPayload {
+  """
+  Affected documents number
+  """
+  numAffected: Int
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type RemoveOneEventPayload {
+  """
+  Document ID
+  """
+  recordId: MongoID
+
+  """
+  Removed document
+  """
+  record: Event
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type UpdateByIdEventPayload {
+  """
+  Document ID
+  """
+  recordId: MongoID
+
+  """
+  Updated document
+  """
+  record: Event
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type UpdateManyEventPayload {
+  """
+  Affected documents number
+  """
+  numAffected: Int
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type UpdateOneEventPayload {
+  """
+  Document ID
+  """
+  recordId: MongoID
+
+  """
+  Updated document
+  """
+  record: Event
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+"""
+"""
+input CreateManyEventInput {
+  name: String
+}
+
+"""
+"""
+input CreateOneEventInput {
+  name: String
+}
+
+input FilterCountEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterCountEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterCountEventOperatorsInput
+  OR: [FilterCountEventInput!]
+  AND: [FilterCountEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterCountEventOperatorsInput {
+  _id: FilterCountEvent_idOperatorsInput
+}
+
+input FilterFindManyEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterFindManyEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterFindManyEventOperatorsInput
+  OR: [FilterFindManyEventInput!]
+  AND: [FilterFindManyEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterFindManyEventOperatorsInput {
+  _id: FilterFindManyEvent_idOperatorsInput
+}
+
+input FilterFindOneEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterFindOneEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterFindOneEventOperatorsInput
+  OR: [FilterFindOneEventInput!]
+  AND: [FilterFindOneEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterFindOneEventOperatorsInput {
+  _id: FilterFindOneEvent_idOperatorsInput
+}
+
+input FilterRemoveManyEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterRemoveManyEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterRemoveManyEventOperatorsInput
+  OR: [FilterRemoveManyEventInput!]
+  AND: [FilterRemoveManyEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterRemoveManyEventOperatorsInput {
+  _id: FilterRemoveManyEvent_idOperatorsInput
+}
+
+input FilterRemoveOneEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterRemoveOneEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterRemoveOneEventOperatorsInput
+  OR: [FilterRemoveOneEventInput!]
+  AND: [FilterRemoveOneEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterRemoveOneEventOperatorsInput {
+  _id: FilterRemoveOneEvent_idOperatorsInput
+}
+
+input FilterUpdateManyEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterUpdateManyEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterUpdateManyEventOperatorsInput
+  OR: [FilterUpdateManyEventInput!]
+  AND: [FilterUpdateManyEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterUpdateManyEventOperatorsInput {
+  _id: FilterUpdateManyEvent_idOperatorsInput
+}
+
+input FilterUpdateOneEvent_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""
+"""
+input FilterUpdateOneEventInput {
+  name: String
+  id: Float
+  _id: MongoID
+
+  """
+  List of *indexed* fields that can be filtered via operators.
+  """
+  _operators: FilterUpdateOneEventOperatorsInput
+  OR: [FilterUpdateOneEventInput!]
+  AND: [FilterUpdateOneEventInput!]
+}
+
+"""
+For performance reason this type contains only *indexed* fields.
+"""
+input FilterUpdateOneEventOperatorsInput {
+  _id: FilterUpdateOneEvent_idOperatorsInput
+}
+
+"""
+"""
+input UpdateByIdEventInput {
+  name: String
+}
+
+"""
+"""
+input UpdateManyEventInput {
+  name: String
+}
+
+"""
+"""
+input UpdateOneEventInput {
+  name: String
+}
