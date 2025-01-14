@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -47,7 +47,13 @@ export function TimeMachine() {
           mode="single"
           selected={timeMachineState.toDate()}
           required={true}
-          onSelect={(_, newDate) => timeMachine(dayjs(newDate))}
+          onSelect={(_, newDate) =>
+            timeMachine(
+              dayjs(newDate)
+                .add(timeMachineState.hour(), "hour")
+                .add(timeMachineState.minute(), "minute"),
+            )
+          }
         />
       </PopoverContent>
     </Popover>
