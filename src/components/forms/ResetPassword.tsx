@@ -23,17 +23,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { passwordSchema } from "../../validator";
+import { resetPasswordFormSchema } from "../../validator";
 
-const formSchema = z
-  .object({
-    password: passwordSchema,
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+const formSchema = resetPasswordFormSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
     path: ["confirmPassword"],
     message: "Passwords do not match",
-  });
+  },
+);
 
 export function ResetPasswordForm() {
   const { toast } = useToast();

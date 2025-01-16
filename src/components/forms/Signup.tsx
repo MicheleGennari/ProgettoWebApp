@@ -37,28 +37,18 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
-import * as validator from "../../validator";
 import { useRouter } from "next/navigation";
 import { signUp } from "../../serverActions/signUp";
 import dayjs from "dayjs";
+import { signupFormSchema } from "../../validator";
 
-const formSchema = z
-  .object({
-    name: validator.nameSchema,
-    surname: validator.surname,
-    birthday: validator.birthday,
-    location: validator.location,
-    photo: validator.photo,
-    is_tech: validator.is_tech,
-    username: validator.username,
-    email: validator.emailSchema,
-    password: validator.passwordSchema,
-    confirmPassword: validator.confirmPassword,
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+const formSchema = signupFormSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
     path: ["confirmPassword"],
     message: "Passwords do not match",
-  });
+  },
+);
 
 export function SignupForm() {
   //const [inputName, setInputName] = useState("")

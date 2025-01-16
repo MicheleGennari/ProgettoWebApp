@@ -5,27 +5,17 @@ import { randomUUID } from "crypto";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import * as validator from "../validator";
 import { dbConfig } from "@/db/dbconfig";
 import mongoose from "mongoose";
+import { signupFormSchema } from "../validator";
 
-const formSchema = z
-  .object({
-    email: validator.emailSchema,
-    password: validator.passwordSchema,
-    name: validator.nameSchema,
-    surname: validator.surname,
-    location: validator.location,
-    username: validator.username,
-    birthday: validator.birthday,
-    photo: validator.photo,
-    is_tech: validator.is_tech,
-    confirmPassword: validator.confirmPassword,
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+const formSchema = signupFormSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
     path: ["confirmPassword"],
     message: "Passwords do not match",
-  });
+  },
+);
 
 export async function signUp(formData: z.infer<typeof formSchema>) {
   //validate form data

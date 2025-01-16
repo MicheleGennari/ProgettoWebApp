@@ -1,14 +1,8 @@
 import NextAuth, { User } from "next-auth";
 import Credentials, { CredentialInput } from "next-auth/providers/credentials";
-import { z } from "zod";
 import bcrypt from "bcrypt";
 import { userModel } from "./src/db/models/user";
-import { emailSchema, passwordSchema } from "./src/validator";
-
-export const credentialsValidator = z.object({
-  email: emailSchema,
-  password: passwordSchema,
-});
+import { credentialsValidator } from "./src/validator";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: { signIn: "/login", newUser: "/" },
@@ -70,7 +64,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 });
 
 async function dbAuthentication(
-  credentials: Partial<Record<"email" | "password", string>>,
+  credentials: Partial<Record<"email" | "password", unknown>>,
   request: Request,
 ) {
   const validatedCredentials = credentialsValidator.safeParse(credentials);

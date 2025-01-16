@@ -22,12 +22,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { emailSchema } from "../../validator";
+import { forgotPasswordFormSchema as formSchema } from "../../validator";
 import { useState, useEffect } from "react";
-
-const formSchema = z.object({
-  email: emailSchema,
-});
 
 export function ForgotPasswordForm() {
   const { toast } = useToast();

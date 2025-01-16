@@ -24,15 +24,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import * as React from "react";
-import { emailSchema, passwordSchema } from "../../validator";
 import { useState, useEffect } from "react";
 import { logIn } from "../../serverActions/logIn";
 import { useRouter } from "next/navigation";
-
-export const formSchema = z.object({
-  email: emailSchema,
-  password: passwordSchema,
-});
+import { loginFormSchema as formSchema } from "../../validator";
 
 export function LoginForm() {
   const { toast } = useToast();
