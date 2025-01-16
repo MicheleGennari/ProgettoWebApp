@@ -1,4 +1,5 @@
 import { z } from "zod";
+// DA IMPORTARE DATA TIMEMACHINE PER BIRTHDAY
 
 const emailSchema = z.string().email("Invalid email address");
 const passwordSchema = z
@@ -12,42 +13,53 @@ const passwordSchema = z
   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
   .regex(/[0-9]/, "Password must contain at least one number")
   .regex(/[@$!%*?&]/, "Password must contain at least one special character");
-const confirmPassword = z.string();
-const nameSchema = z.string().min(2, "Name must be at least 2 characters long");
+const confirmPasswordSchema = z.string();
 
-const surname = z.string().min(2, "Surname must be at least 2 characters long");
-const birthday = z
-  .date()
-  .min(new Date("1900-01-01"), "Too old")
-  .max(new Date(), "Too young");
-const location = z.string();
-const photo = z
-  .any()
-  .nullable()
-  .refine((file: { size: number }) => !file || file.size < 5000000, {
-    message: "File can't be bigger than 5MB.",
-  })
-  .refine(
-    (file: { type: any }) =>
-      !file || ["image/jpeg", "image/png", "image/jpg"].includes(file?.type),
-    {
-      message: "File format must be either jpg, jpeg or png.",
-    },
-  );
-const is_tech = z.boolean();
-const username = z
-  .string()
-  .min(5, { message: "Username must be at least 5 characters long" });
+export const loginFormSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
 
-export {
-  emailSchema,
-  passwordSchema,
-  confirmPassword,
-  nameSchema,
-  username,
-  is_tech,
-  photo,
-  location,
-  birthday,
-  surname,
-};
+export const signupFormSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+  confirmPassword: confirmPasswordSchema,
+  name: z.string().min(2, "Name must be at least 2 characters long"),
+  surname: z.string().min(2, "Surname must be at least 2 characters long"),
+  location: z.string(),
+  username: z
+    .string()
+    .min(5, { message: "Username must be at least 5 characters long" }),
+  birthday: z
+    .date()
+    .min(new Date("1900-01-01"), "Too old")
+    .max(new Date(), "Too young"),
+  photo: z
+    .any()
+    .nullable()
+    .refine((file: { size: number }) => !file || file.size < 5000000, {
+      message: "File can't be bigger than 5MB.",
+    })
+    .refine(
+      (file: { type: any }) =>
+        !file || ["image/jpeg", "image/png", "image/jpg"].includes(file?.type),
+      {
+        message: "File format must be either jpg, jpeg or png.",
+      },
+    ),
+  is_tech: z.boolean(),
+});
+
+export const resetPasswordFormSchema = z.object({
+  password: passwordSchema,
+  confirmPassword: confirmPasswordSchema,
+});
+
+export const forgotPasswordFormSchema = z.object({
+  email: emailSchema,
+});
+
+export const credentialsValidator = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
